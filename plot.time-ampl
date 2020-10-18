@@ -1,0 +1,11 @@
+#!/bin/sh
+
+
+echo \
+"set title '$1'
+#set yrange [0:600]
+#set xrange [2:17]
+set xlabel 'Zeit'
+set ylabel 'Ampilitude'
+plot '$1' using 2:3  title '$1'smooth unique with line" | gnuplot -persist
+

@@ -1,0 +1,38 @@
+# 
+
+CFLAGS = $(shell /usr/local/share/win32-cross-env/bin/sdl-config --cflags) 
+LIBS = $(shell  /usr/local/share/win32-cross-env/bin/sdl-config --libs) 
+
+
+CC = i586-mingw32msvc-g++ -Wall -g -O2 
+
+
+OUTDIR=./
+OUTFILE=groovemaster5000.exe
+
+
+OBJS=main.o util.o Player.o Sound.o Notesheet.o Mixer.o MultModul.o NoiseGen.o PickedString.o Instrument.o
+
+
+
+all: $(OUTFILE)
+
+$(OUTFILE):	$(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(OUTDIR)$(OUTFILE) $(LIBS)
+
+clean:
+	$(RM) $(OUTFILE) $(OBJS) *~
+
+%o:	%cpp 
+	$(CC) -c $(CFLAGS) -o $@ $<
+
+
+Sound.o: Sound.h
+Player.o: Player.h
+Notesheet.o: Notesheet.h
+Mixer.o: Mixer.h
+MultModul.o: MultModul.h
+NoiseGen.o: NoiseGen.h
+PickedString.o: PickedString.h
+Instrument.o: Instrument.h
+util.o: util.h
