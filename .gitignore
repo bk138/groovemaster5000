@@ -1,4 +1,4 @@
 *.o
 *~
-/groovemaster5000
+src/groovemaster5000
 *.aum

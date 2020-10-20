@@ -6,6 +6,6 @@ Klanganalyse und -synthese", held by Manfred Hild during winter semester
 
 Authored by Benjamin Werner and Christian Beier.
 
-Build via `make`, run by `./groovemaster5000 CLSFsonate.not`, play output
+Build via `make -C src`, run by `./src/groovemaster5000 CLSFsonate.not`, play output
 via `play -r 44k -e signed -b 16 -c 1 -t raw  out.aum`.
 
