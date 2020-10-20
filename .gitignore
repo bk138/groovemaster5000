@@ -7,3 +7,5 @@ src/groovemaster5000
 # Added by cargo
 
 /target
+/.ccls-cache/
+/compile_commands.json
