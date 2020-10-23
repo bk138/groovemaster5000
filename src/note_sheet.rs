@@ -1,3 +1,14 @@
+use std::os;
+
+// C++ Notesheet shim
+extern "C" {
+    pub fn new_notesheet() -> *const os::raw::c_void;
+    pub fn notesheet_load_file(
+        notesheet: *const os::raw::c_void,
+        path: *const u8,
+    ) -> os::raw::c_int;
+}
+
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct Note {

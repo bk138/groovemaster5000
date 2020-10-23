@@ -1,14 +1,7 @@
 use std::env;
-use std::os;
 use std::process;
 
 mod note_sheet;
-
-// Notesheet shim
-extern "C" {
-    fn new_notesheet() -> *const os::raw::c_void;
-    fn notesheet_load_file(notesheet: *const os::raw::c_void, path: *const u8) -> os::raw::c_int;
-}
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -28,10 +21,10 @@ fn main() {
     };
 
     unsafe {
-        let notesheet = new_notesheet();
+        let notesheet = note_sheet::new_notesheet();
         println!(
             "noten ok? {}",
-            notesheet_load_file(notesheet, args[1].as_ptr())
+            note_sheet::notesheet_load_file(notesheet, args[1].as_ptr())
         );
     }
 }
