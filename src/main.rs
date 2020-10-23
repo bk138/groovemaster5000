@@ -1,10 +1,11 @@
 use std::env;
+use std::os;
 use std::process;
 
 // Notesheet shim
 extern "C" {
-    fn new_notesheet() -> *const libc::c_void;
-    fn notesheet_load_file(notesheet: *const libc::c_void, path: *const u8) -> libc::c_int;
+    fn new_notesheet() -> *const os::raw::c_void;
+    fn notesheet_load_file(notesheet: *const os::raw::c_void, path: *const u8) -> os::raw::c_int;
 }
 
 fn main() {
