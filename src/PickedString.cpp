@@ -78,3 +78,22 @@ bool PickedString::isDone()
 {
   return done;
 }
+
+void *new_pickedstring(Note *note) {
+    return new PickedString(*note);
+}
+
+int pickedstring_is_done(void *pickedstring) {
+    PickedString *ps = static_cast<PickedString*>(pickedstring);
+    return ps->isDone();
+}
+
+void pickedstring_tick(void *pickedstring) {
+    PickedString *ps = static_cast<PickedString*>(pickedstring);
+    ps->tick();
+}
+
+double pickedstring_get_output(void *pickedstring) {
+    PickedString *ps = static_cast<PickedString*>(pickedstring);
+    return ps->output;
+}
