@@ -1,4 +1,5 @@
 use std::env;
+use std::ffi::CString;
 use std::os;
 use std::process;
 
@@ -19,7 +20,10 @@ extern "C" {
         sound: *const os::raw::c_void,
         value: os::raw::c_double,
     ) -> *const os::raw::c_void;
-    pub fn sound_save_file(sound: *const os::raw::c_void, path: *const u8) -> os::raw::c_int;
+    pub fn sound_save_file(
+        sound: *const os::raw::c_void,
+        path: *const os::raw::c_char,
+    ) -> os::raw::c_int;
 }
 
 fn main() {
@@ -43,7 +47,10 @@ fn main() {
         let notesheet = note_sheet::new_notesheet();
         println!(
             "noten ok? {}",
-            note_sheet::notesheet_load_file(notesheet, args[1].as_ptr())
+            note_sheet::notesheet_load_file(
+                notesheet,
+                CString::new(args[1].as_str()).unwrap().as_ptr()
+            )
         );
 
         let output = new_sound();
@@ -55,6 +62,6 @@ fn main() {
             sound_push_back(output, pickedstring_get_output(pickedstring));
         }
 
-        sound_save_file(output, "out.aum\0".as_ptr()); //FIXME make use of CStr
+        sound_save_file(output, CString::new("out.aum").unwrap().as_ptr());
     }
 }

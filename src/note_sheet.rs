@@ -5,7 +5,7 @@ extern "C" {
     pub fn new_notesheet() -> *const os::raw::c_void;
     pub fn notesheet_load_file(
         notesheet: *const os::raw::c_void,
-        path: *const u8,
+        path: *const os::raw::c_char,
     ) -> os::raw::c_int;
 }
 
