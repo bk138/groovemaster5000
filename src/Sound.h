@@ -90,4 +90,10 @@ class Ringbuf : protected std::deque<double>
 };
 
 
+extern "C" {
+    void *new_sound();
+    void sound_push_back(void* sound, double value);
+    int sound_save_file(void* sound, const char *path);
+}
+
 #endif
