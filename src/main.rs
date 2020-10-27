@@ -21,6 +21,8 @@ fn main() {
         process::exit(1);
     }
 
+    let mut output = sound::Sound::new();
+
     let note = note_sheet::Note {
         on_time: 0.0,
         on_sample: 0,
@@ -41,15 +43,13 @@ fn main() {
             )
         );
 
-        let mut output = sound::Sound::new();
-
         let pickedstring = new_pickedstring(&note);
 
         while pickedstring_is_done(pickedstring) == 0 {
             pickedstring_tick(pickedstring);
             output.push_back(pickedstring_get_output(pickedstring));
         }
-
-        output.save_file("out.aum");
     }
+
+    output.save_file("out.aum");
 }
