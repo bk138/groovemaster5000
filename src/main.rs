@@ -41,15 +41,15 @@ fn main() {
             )
         );
 
-        let output = sound::new_sound();
+        let mut output = sound::Sound::new();
 
         let pickedstring = new_pickedstring(&note);
 
         while pickedstring_is_done(pickedstring) == 0 {
             pickedstring_tick(pickedstring);
-            sound::sound_push_back(output, pickedstring_get_output(pickedstring));
+            output.push_back(pickedstring_get_output(pickedstring));
         }
 
-        sound::sound_save_file(output, CString::new("out.aum").unwrap().as_ptr());
+        output.save_file("out.aum");
     }
 }
