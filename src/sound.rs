@@ -1,4 +1,5 @@
 use std::fs;
+use std::io::BufWriter;
 use std::io::Write;
 use std::os;
 
@@ -39,11 +40,12 @@ impl Sound {
         }
 
         // stow it away
-        let mut f = fs::File::create(path).unwrap();
+        let mut buffer = BufWriter::new(fs::File::create(path).unwrap());
 
         for i in &to_be_saved {
-            f.write_all(&i.to_le_bytes()).expect("write failed");
+            buffer.write_all(&i.to_le_bytes()).expect("write failed");
         }
+        buffer.flush().unwrap();
 
         true
     }
