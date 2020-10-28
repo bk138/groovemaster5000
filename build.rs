@@ -4,7 +4,6 @@ fn main() {
     cc::Build::new()
         .cpp(true) // Switch to C++ library compilation.
         .file("src/util.cpp")
-        .file("src/Sound.cpp")
         .file("src/Notesheet.cpp")
         .file("src/Mixer.cpp")
         .file("src/MultModul.cpp")
