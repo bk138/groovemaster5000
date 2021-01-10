@@ -2,6 +2,8 @@ use std::fs;
 use std::io::BufWriter;
 use std::io::Write;
 
+pub const SMPLRATE: f64 = 44100.0;
+
 pub struct Sound {
     snddata: Vec<f64>,
 }
