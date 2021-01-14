@@ -7,8 +7,6 @@ fn main() {
         .file("src/Notesheet.cpp")
         .file("src/Mixer.cpp")
         .file("src/MultModul.cpp")
-        .file("src/NoiseGen.cpp")
-        .file("src/PickedString.cpp")
         .file("src/Instrument.cpp")
         .compile("libgroovemaster.a");
 }

@@ -1,18 +1,11 @@
 use std::env;
 use std::ffi::CString;
-use std::os;
 use std::process;
 
+mod noise_gen;
 mod note_sheet;
+mod picked_string;
 mod sound;
-
-// C++ PickedString shim
-extern "C" {
-    pub fn new_pickedstring(note: *const note_sheet::Note) -> *const os::raw::c_void;
-    pub fn pickedstring_is_done(pickedstring: *const os::raw::c_void) -> os::raw::c_int;
-    pub fn pickedstring_tick(pickedstring: *const os::raw::c_void);
-    pub fn pickedstring_get_output(pickedstring: *const os::raw::c_void) -> os::raw::c_double;
-}
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -43,11 +36,11 @@ fn main() {
             )
         );
 
-        let pickedstring = new_pickedstring(&note);
+        let mut pickedstring = picked_string::PickedString::new(&note);
 
-        while pickedstring_is_done(pickedstring) == 0 {
-            pickedstring_tick(pickedstring);
-            output.push_back(pickedstring_get_output(pickedstring));
+        while !pickedstring.is_done() {
+            pickedstring.tick();
+            output.push_back(pickedstring.output);
         }
     }
 
