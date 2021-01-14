@@ -47,12 +47,6 @@ class PickedString
   bool isDone();
 };
 
-extern "C" {
-    void *new_pickedstring(Note *note);
-    int pickedstring_is_done(void *pickedstring);
-    void pickedstring_tick(void* pickedstring);
-    double pickedstring_get_output(void* pickedstring);
-}
 
 
 #endif
