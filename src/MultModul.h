@@ -27,6 +27,16 @@ private:
 	vector<double> *weights;
 	int pickuplength;
 };
+
+
+extern "C" {
+    void *new_multimodul(int buflen, int pick1, int pick2, double ws1, double ws2);
+    void multimodul_next(void* multimodul);
+    double* multimodul_get_output(void* multimodul);
+    void multimodul_set_input(void* multimodul, double *in);
+}
+
+
 #endif /*MULTMODUL_H_*/
 
 

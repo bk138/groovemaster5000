@@ -185,7 +185,29 @@ void MultiModul::printBuffer() {
 }
 
 
+void *new_multimodul(int buflen, int pick1, int pick2, double ws1, double ws2) {
+    MultiModul *mm = new MultiModul;
+    vector<int> *mm_p = new vector<int>;
+    mm_p->push_back(pick1);
+    mm_p->push_back(pick2);
+    vector<double> *mm_w = new vector<double>;
+    mm_w->push_back(ws1);
+    mm_w->push_back(ws2);
+    mm->init(buflen, mm_p, mm_w);
+    return mm;
+}
 
+void multimodul_next(void *multimodul) {
+    MultiModul *mm = static_cast<MultiModul*>(multimodul);
+    mm->next();
+}
 
+double* multimodul_get_output(void *multimodul) {
+    MultiModul *mm = static_cast<MultiModul*>(multimodul);
+    return &mm->output;
+}
 
-
+void multimodul_set_input(void *multimodul, double *in) {
+    MultiModul *mm = static_cast<MultiModul*>(multimodul);
+    mm->setInput(in);
+}
