@@ -19,6 +19,7 @@ impl NoiseGen {
             self.output = 0.0;
         } else {
             self.counter -= 1;
+            // using this instead of stdlib.h's rand() makes the Rust version sound different
             self.output = (-32768.0 + rand::thread_rng().gen_range(0.0, 65536.0)) / 32768.0;
         }
     }
