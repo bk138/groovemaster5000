@@ -1,6 +1,6 @@
 use std::os;
 
-use crate::{noise_gen::NoiseGen, note_sheet::Note, sound};
+use crate::{mixer::mixer_next, noise_gen::NoiseGen, note_sheet::Note, sound};
 
 // C++ MultiModul shim
 extern "C" {
@@ -17,24 +17,11 @@ extern "C" {
     ) -> os::raw::c_double;
 }
 
-// C++ Mixer shim
-extern "C" {
-    pub fn new_mixer() -> *const os::raw::c_void;
-    pub fn mixer_next(
-        mixer: *const os::raw::c_void,
-        in1: os::raw::c_double,
-        in2: os::raw::c_double,
-        w1: os::raw::c_double,
-        w2: os::raw::c_double,
-    ) -> os::raw::c_double;
-}
-
 pub struct PickedString {
     // the inner devices
     noise: NoiseGen,
     delayline: *const os::raw::c_void,
     lowpass: *const os::raw::c_void,
-    mix: *const os::raw::c_void,
 
     ticks: u64,
     samples: u64,
@@ -51,10 +38,6 @@ pub struct PickedString {
     // lowpass
     pub lowpass_p: Vec<i32>,
     pub lowpass_w: Vec<f64>,
-
-    // mixer
-    pub mix_in: Vec<f64>,
-    pub mix_w: Vec<f64>,
 
     pub output: f64,
 }
@@ -89,11 +72,6 @@ impl PickedString {
             lowpass_p: vec![0, 1],
             lowpass_w: vec![0.5 - damp, 0.5],
             lowpass: new_multimodul(1, 0, 1, 0.5 - damp, 0.5),
-
-            // mixer
-            mix_in: Vec::new(),
-            mix_w: vec![1.0, 0.999],
-            mix: new_mixer(),
         }
     }
 
@@ -106,13 +84,10 @@ impl PickedString {
 
         self.output = multimodul_next(
             self.delayline,
-            mixer_next(
-                self.mix,
-                self.noise.next(),
-                multimodul_next(self.lowpass, self.output),
-                1.0,
-                0.999,
-            ),
+            mixer_next(vec![
+                (self.noise.next(), 1.0),
+                (multimodul_next(self.lowpass, self.output), 0.999),
+            ]),
         );
     }
 

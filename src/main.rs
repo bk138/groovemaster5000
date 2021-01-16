@@ -2,6 +2,7 @@ use std::env;
 use std::ffi::CString;
 use std::process;
 
+mod mixer;
 mod noise_gen;
 mod note_sheet;
 mod picked_string;
