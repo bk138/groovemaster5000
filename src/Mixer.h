@@ -17,9 +17,8 @@ public:
 };
 
 extern "C" {
-    void *new_mixer(double *in1, double *in2, double w1, double w2);
-    void mixer_next(void* mixer);
-    double* mixer_get_output(void* mixer);
+    void *new_mixer();
+    double mixer_next(void* mixer, double in1, double in2, double w1, double w2);
 }
 
 

@@ -14,7 +14,7 @@ impl NoiseGen {
         }
     }
 
-    pub fn next(&mut self) {
+    pub fn next(&mut self) -> f64 {
         if self.counter == 0 {
             self.output = 0.0;
         } else {
@@ -22,5 +22,6 @@ impl NoiseGen {
             // using this instead of stdlib.h's rand() makes the Rust version sound different
             self.output = (-32768.0 + rand::thread_rng().gen_range(0.0, 65536.0)) / 32768.0;
         }
+        self.output
     }
 }

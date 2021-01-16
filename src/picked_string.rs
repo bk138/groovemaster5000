@@ -1,4 +1,4 @@
-use std::{os, ptr};
+use std::os;
 
 use crate::{noise_gen::NoiseGen, note_sheet::Note, sound};
 
@@ -11,24 +11,22 @@ extern "C" {
         ws1: os::raw::c_double,
         ws2: os::raw::c_double,
     ) -> *const os::raw::c_void;
-    pub fn multimodul_next(multimodul: *const os::raw::c_void);
-    pub fn multimodul_get_output(multimodul: *const os::raw::c_void) -> *const os::raw::c_double;
-    pub fn multimodul_set_input(
+    pub fn multimodul_next(
         multimodul: *const os::raw::c_void,
-        input: *const os::raw::c_double,
-    );
+        input: os::raw::c_double,
+    ) -> os::raw::c_double;
 }
 
 // C++ Mixer shim
 extern "C" {
-    pub fn new_mixer(
-        in1: *const os::raw::c_double,
-        in2: *const os::raw::c_double,
+    pub fn new_mixer() -> *const os::raw::c_void;
+    pub fn mixer_next(
+        mixer: *const os::raw::c_void,
+        in1: os::raw::c_double,
+        in2: os::raw::c_double,
         w1: os::raw::c_double,
         w2: os::raw::c_double,
-    ) -> *const os::raw::c_void;
-    pub fn mixer_next(mixer: *const os::raw::c_void);
-    pub fn mixer_get_output(mixer: *const os::raw::c_void) -> *const os::raw::c_double;
+    ) -> os::raw::c_double;
 }
 
 pub struct PickedString {
@@ -67,7 +65,7 @@ impl PickedString {
         let delayrem: f64 = (sound::SMPLRATE % n.freq) / n.freq;
         let damp: f64 = 0.0015 * (1.0 / n.length_time);
 
-        let mut ps = PickedString {
+        PickedString {
             done: false,
             ticks: 0,
             output: 0.0,
@@ -95,21 +93,8 @@ impl PickedString {
             // mixer
             mix_in: Vec::new(),
             mix_w: vec![1.0, 0.999],
-            mix: ptr::null(),
-        };
-
-        // still mixer. ouch
-        ps.mix = new_mixer(
-            &ps.noise.output,
-            multimodul_get_output(ps.lowpass),
-            1.0,
-            0.999,
-        );
-
-        multimodul_set_input(ps.delayline, mixer_get_output(ps.mix));
-        multimodul_set_input(ps.lowpass, multimodul_get_output(ps.delayline));
-
-        ps
+            mix: new_mixer(),
+        }
     }
 
     pub unsafe fn tick(&mut self) {
@@ -119,12 +104,16 @@ impl PickedString {
             self.done = true;
         }
 
-        self.noise.next();
-        mixer_next(self.mix);
-        multimodul_next(self.delayline);
-        multimodul_next(self.lowpass);
-
-        self.output = *multimodul_get_output(self.delayline);
+        self.output = multimodul_next(
+            self.delayline,
+            mixer_next(
+                self.mix,
+                self.noise.next(),
+                multimodul_next(self.lowpass, self.output),
+                1.0,
+                0.999,
+            ),
+        );
     }
 
     pub fn is_done(&self) -> bool {

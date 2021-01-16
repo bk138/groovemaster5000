@@ -197,17 +197,10 @@ void *new_multimodul(int buflen, int pick1, int pick2, double ws1, double ws2) {
     return mm;
 }
 
-void multimodul_next(void *multimodul) {
+double multimodul_next(void *multimodul, double in) {
     MultiModul *mm = static_cast<MultiModul*>(multimodul);
+    mm->setInput(new double(in));
     mm->next();
+    return mm->output;
 }
 
-double* multimodul_get_output(void *multimodul) {
-    MultiModul *mm = static_cast<MultiModul*>(multimodul);
-    return &mm->output;
-}
-
-void multimodul_set_input(void *multimodul, double *in) {
-    MultiModul *mm = static_cast<MultiModul*>(multimodul);
-    mm->setInput(in);
-}
