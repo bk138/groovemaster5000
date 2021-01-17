@@ -16,6 +16,17 @@ fn main() {
         process::exit(1);
     }
 
+    unsafe {
+        let notesheet = note_sheet::new_notesheet();
+        println!(
+            "noten ok? {}",
+            note_sheet::notesheet_load_file(
+                notesheet,
+                CString::new(args[1].as_str()).unwrap().as_ptr()
+            )
+        );
+    }
+
     let mut output = sound::Sound::new();
 
     let note = note_sheet::Note {
@@ -33,17 +44,6 @@ fn main() {
     while !pickedstring.is_done() {
         pickedstring.tick();
         output.push_back(pickedstring.output);
-    }
-
-    unsafe {
-        let notesheet = note_sheet::new_notesheet();
-        println!(
-            "noten ok? {}",
-            note_sheet::notesheet_load_file(
-                notesheet,
-                CString::new(args[1].as_str()).unwrap().as_ptr()
-            )
-        );
     }
 
     output.save_file("out.aum");
