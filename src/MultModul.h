@@ -29,12 +29,6 @@ private:
 };
 
 
-extern "C" {
-    void *new_multimodul(int buflen, int pick1, int pick2, double ws1, double ws2);
-    double multimodul_next(void* multimodul, double in);
-}
-
-
 #endif /*MULTMODUL_H_*/
 
 
