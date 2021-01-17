@@ -28,6 +28,13 @@ fn main() {
         loudness: 0.0,
     };
 
+    let mut pickedstring = picked_string::PickedString::new(&note);
+
+    while !pickedstring.is_done() {
+        pickedstring.tick();
+        output.push_back(pickedstring.output);
+    }
+
     unsafe {
         let notesheet = note_sheet::new_notesheet();
         println!(
@@ -37,13 +44,6 @@ fn main() {
                 CString::new(args[1].as_str()).unwrap().as_ptr()
             )
         );
-
-        let mut pickedstring = picked_string::PickedString::new(&note);
-
-        while !pickedstring.is_done() {
-            pickedstring.tick();
-            output.push_back(pickedstring.output);
-        }
     }
 
     output.save_file("out.aum");
