@@ -1,5 +1,4 @@
 use std::env;
-use std::ffi::CString;
 use std::process;
 
 mod mixer;
@@ -16,16 +15,8 @@ fn main() {
         process::exit(1);
     }
 
-    unsafe {
-        let notesheet = note_sheet::new_notesheet();
-        println!(
-            "noten ok? {}",
-            note_sheet::notesheet_load_file(
-                notesheet,
-                CString::new(args[1].as_str()).unwrap().as_ptr()
-            )
-        );
-    }
+    let mut notesheet = note_sheet::NoteSheet::new();
+    println!("noten ok? {}", notesheet.load_file(&args[1]));
 
     let mut output = sound::Sound::new();
 
