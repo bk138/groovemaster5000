@@ -5,7 +5,6 @@ fn main() {
         .cpp(true) // Switch to C++ library compilation.
         .file("src/util.cpp")
         .file("src/Notesheet.cpp")
-        .file("src/MultModul.cpp")
         .file("src/Instrument.cpp")
         .compile("libgroovemaster.a");
 }

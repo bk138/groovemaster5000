@@ -3,6 +3,7 @@ use std::ffi::CString;
 use std::process;
 
 mod mixer;
+mod multi_modul;
 mod noise_gen;
 mod note_sheet;
 mod picked_string;
