@@ -69,13 +69,3 @@ int Notesheet::loadFile(const char* path)
   
   return 1;
 }
-
-
-void* new_notesheet() {
-    return new Notesheet;
-}
-
-int notesheet_load_file(void *notesheet, const char *path) {
-    Notesheet* ns = static_cast<Notesheet*>(notesheet);
-    return ns->loadFile(path);
-}

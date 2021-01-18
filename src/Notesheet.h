@@ -30,9 +30,7 @@ class Notesheet: public std::vector<Note>
 
 };
 
-extern "C" {
-    void *new_notesheet();
-    int notesheet_load_file(void* notesheet, const char* path);
-}
+
+
 
 #endif
