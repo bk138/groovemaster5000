@@ -319,16 +319,3 @@ Sound mkStereo(Sound left, Sound right)
   return stereo;
 }
 
-void *new_sound() {
-    return new Sound();
-}
-
-void sound_push_back(void *sound, double value) {
-    Sound *s = static_cast<Sound*>(sound);
-    s->samples.push_back(value);
-}
-
-int sound_save_file(void *sound, const char *path) {
-    Sound *s = static_cast<Sound *>(sound);
-    return s->saveFile(path);
-}
