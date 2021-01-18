@@ -1,6 +1,7 @@
 use std::env;
 use std::process;
 
+mod instrument;
 mod mixer;
 mod multi_modul;
 mod noise_gen;
@@ -20,6 +21,7 @@ fn main() {
 
     let mut output = sound::Sound::new();
 
+    /*
     let note = note_sheet::Note {
         on_time: 0.0,
         on_sample: 0,
@@ -35,6 +37,30 @@ fn main() {
     while !pickedstring.is_done() {
         pickedstring.tick();
         output.push_back(pickedstring.output);
+    }
+     */
+
+    let mut guitar = instrument::Instrument::new();
+
+    let mut note_it = 0;
+
+    for sample_now in 0..notesheet.notes.last().unwrap().on_sample {
+        guitar.tick(); //play...
+
+        //  we are not at the end yet
+        if note_it != notesheet.notes.len() {
+            while notesheet.notes[note_it].on_sample == sample_now {
+                //current note is NOW
+
+                let s = picked_string::PickedString::new(&notesheet.notes[note_it]);
+
+                guitar.add(s);
+
+                note_it += 1; // maybe another note NOW?
+            }
+        }
+
+        output.push_back(guitar.output);
     }
 
     output.save_file("out.aum");

@@ -16,7 +16,7 @@ pub struct Note {
 }
 
 pub struct NoteSheet {
-    notes: Vec<Note>,
+    pub notes: Vec<Note>,
 }
 
 impl NoteSheet {
