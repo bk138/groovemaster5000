@@ -18,6 +18,7 @@ fn main() {
 
     let mut notesheet = note_sheet::NoteSheet::new();
     println!("noten ok? {}", notesheet.load_file(&args[1]));
+    notesheet.notes.sort_by(|a, b| a.on_sample.cmp(&b.on_sample));
 
     let mut output = sound::Sound::new();
 
