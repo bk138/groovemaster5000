@@ -19,7 +19,7 @@ impl Sound {
         self.snddata.push(value);
     }
 
-    pub fn save_file(&self, path: &str) -> bool {
+    pub fn save_file(&self, path: &str) -> Result<(), std::io::Error> {
         let mut to_be_saved: Vec<i16> = Vec::new();
 
         // de-normalize and save as i16
@@ -28,13 +28,12 @@ impl Sound {
         }
 
         // stow it away
-        let mut buffer = BufWriter::new(fs::File::create(path).unwrap());
+        let mut buffer = BufWriter::new(fs::File::create(path)?);
 
         for i in &to_be_saved {
-            buffer.write_all(&i.to_le_bytes()).expect("write failed");
+            buffer.write_all(&i.to_le_bytes())?;
         }
-        buffer.flush().unwrap();
-
-        true
+        buffer.flush()?;
+	Ok(())
     }
 }

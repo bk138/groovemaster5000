@@ -24,11 +24,8 @@ impl NoteSheet {
         Self { notes: Vec::new() }
     }
 
-    pub fn load_file(&mut self, path: &str) -> bool {
-        let file = match fs::File::open(&path) {
-            Err(_) => return false,
-            Ok(file) => file,
-        };
+    pub fn load_file(&mut self, path: &str) -> Result<(), std::io::Error> {
+        let file = fs::File::open(&path)?;
 
         let reader = BufReader::new(file);
 
@@ -69,6 +66,6 @@ impl NoteSheet {
             self.notes.push(n);
         }
 
-        true
+        Ok(())
     }
 }
