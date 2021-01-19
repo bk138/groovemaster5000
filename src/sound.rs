@@ -5,25 +5,25 @@ use std::io::Write;
 pub const SMPLRATE: f64 = 44100.0;
 
 pub struct Sound {
-    snddata: Vec<f64>,
+    samples: Vec<f64>,
 }
 
 impl Sound {
     pub fn new() -> Sound {
         Sound {
-            snddata: Vec::new(),
+            samples: Vec::new(),
         }
     }
 
     pub fn push_back(&mut self, value: f64) {
-        self.snddata.push(value);
+        self.samples.push(value);
     }
 
     pub fn save_file(&self, path: &str) -> Result<(), std::io::Error> {
         let mut to_be_saved: Vec<i16> = Vec::new();
 
         // de-normalize and save as i16
-        for i in &self.snddata {
+        for i in &self.samples {
             to_be_saved.push((*i * 32000.0) as i16);
         }
 
