@@ -36,4 +36,8 @@ impl Sound {
         buffer.flush()?;
 	Ok(())
     }
+
+    pub fn get_samples(&self) -> &Vec<f64> {
+	return &self.samples;
+    }
 }
