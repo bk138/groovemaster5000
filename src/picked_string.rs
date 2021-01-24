@@ -48,7 +48,7 @@ impl PickedString {
     pub fn tick(&mut self) {
         self.ticks += 1;
 
-        if self.ticks > self.samples {
+        if self.ticks >= self.samples {
             self.done = true;
         }
 
