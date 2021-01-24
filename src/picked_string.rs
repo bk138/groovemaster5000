@@ -62,3 +62,37 @@ impl PickedString {
         self.done
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::{note_sheet, sound};
+
+    #[test]
+    fn four_seconds_a440() {
+        let mut output = sound::Sound::new();
+
+        let note = note_sheet::Note {
+            on_time: 0.0,
+            on_sample: 0,
+            length_time: 4.0,
+            length_sample: 44100 * 4,
+            note: 0,
+            freq: 440.0,
+            loudness: 0.0,
+        };
+
+        let mut pickedstring = PickedString::new(&note);
+
+        while !pickedstring.is_done() {
+            pickedstring.tick();
+            output.push_back(pickedstring.output);
+        }
+
+        assert!(
+            output.get_samples().len() == note.length_sample as usize,
+            "Output does not contain note length's samples, has {}",
+            output.get_samples().len()
+        );
+    }
+}
