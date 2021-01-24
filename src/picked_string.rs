@@ -92,8 +92,13 @@ mod tests {
         assert!(
             output.get_samples().len() == note.length_sample as usize,
             "Output does not contain note length's samples {}, instead has {}",
-	    note.length_sample,
+            note.length_sample,
             output.get_samples().len()
+        );
+
+        assert!(
+            output.get_samples().iter().any(|&s| s != 0.0),
+            "Output is all zero"
         );
     }
 }
