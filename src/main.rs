@@ -7,6 +7,7 @@ mod multi_modul;
 mod noise_gen;
 mod note_sheet;
 mod picked_string;
+mod player;
 mod sound;
 
 fn main() {
@@ -63,6 +64,8 @@ fn main() {
 
         output.push_back(guitar.output);
     }
+
+    player::play(&output);
 
     output.save_file("out.aum").unwrap();
 }
