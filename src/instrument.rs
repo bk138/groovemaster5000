@@ -29,6 +29,10 @@ impl Instrument {
             self.output += part.output;
         }
 
-        self.output = self.output / self.parts.len() as f64;
+        self.output = if !self.parts.is_empty() {
+            self.output / self.parts.len() as f64
+        } else {
+            0.0
+        };
     }
 }
