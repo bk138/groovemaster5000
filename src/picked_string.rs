@@ -1,6 +1,6 @@
-use crate::{
-    mixer::mixer_next, multi_modul::MultiModul, noise_gen::NoiseGen, note_sheet::Note, sound,
-};
+mod mixer;
+
+use crate::{multi_modul::MultiModul, noise_gen::NoiseGen, note_sheet::Note, sound};
 
 pub struct PickedString {
     // the inner devices
@@ -52,7 +52,7 @@ impl PickedString {
             self.done = true;
         }
 
-        self.output = self.delayline.next(mixer_next(vec![
+        self.output = self.delayline.next(mixer::mixer_next(vec![
             (self.noise.next(), 1.0),
             (self.lowpass.next(self.output), 0.999),
         ]));

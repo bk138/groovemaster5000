@@ -2,7 +2,6 @@ use std::env;
 use std::process;
 
 mod instrument;
-mod mixer;
 mod multi_modul;
 mod noise_gen;
 mod note_sheet;
