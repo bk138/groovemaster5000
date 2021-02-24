@@ -1,6 +1,11 @@
 mod mixer;
+mod multi_modul;
+mod noise_gen;
 
-use crate::{multi_modul::MultiModul, noise_gen::NoiseGen, note_sheet::Note, sound};
+use self::multi_modul::MultiModul;
+use self::noise_gen::NoiseGen;
+
+use crate::{note_sheet::Note, sound};
 
 pub struct PickedString {
     // the inner devices

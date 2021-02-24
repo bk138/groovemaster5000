@@ -2,8 +2,6 @@ use std::env;
 use std::process;
 
 mod instrument;
-mod multi_modul;
-mod noise_gen;
 mod note_sheet;
 mod picked_string;
 mod player;
