@@ -1,6 +1,6 @@
 use std::{
     fs,
-    io::{BufRead, BufReader},
+    io::{BufRead, BufReader, Error},
 };
 
 use crate::sound;
@@ -24,7 +24,18 @@ impl NoteSheet {
         Self { notes: Vec::new() }
     }
 
-    pub fn load_file(&mut self, path: &str) -> Result<(), std::io::Error> {
+    pub fn load_file(&mut self, path: &str) -> Result<(), Error> {
+        if path.ends_with(".not") {
+            self.load_note_file(path)
+        } else {
+            Err(Error::new(
+                std::io::ErrorKind::InvalidInput,
+                "Invalid notesheet file given, must be .not",
+            ))
+        }
+    }
+
+    fn load_note_file(&mut self, path: &str) -> Result<(), Error> {
         let file = fs::File::open(&path)?;
 
         let reader = BufReader::new(file);
