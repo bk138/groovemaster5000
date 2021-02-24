@@ -3,12 +3,12 @@ use std::time::Duration;
 use crate::sound::{self, Sound};
 use sdl2::audio::{AudioCallback, AudioSpecDesired};
 
-struct SamplePlayer {
-    samples: Vec<f64>,
+struct SamplePlayer<'a> {
+    samples: &'a Vec<f64>,
     offset: usize,
 }
 
-impl AudioCallback for SamplePlayer {
+impl<'a> AudioCallback for SamplePlayer<'a> {
     type Channel = f32;
 
     fn callback(&mut self, out: &mut [f32]) {
@@ -38,7 +38,7 @@ pub fn play(sound: &Sound) {
         .open_playback(None, &spec, |_spec| {
             // initialize the audio callback
             SamplePlayer {
-                samples: sound.get_samples().clone(),
+                samples: sound.get_samples(),
                 offset: 0,
             }
         })
