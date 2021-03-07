@@ -48,7 +48,7 @@ pub fn play(sound: &Sound) {
     device.resume();
 
     std::thread::sleep(Duration::from_millis(
-        sound.get_samples().len() as u64 / sound::SMPLRATE as u64 * 1000,
+        (sound.get_samples().len() as f64 / sound::SMPLRATE * 1000.0) as u64
     ));
 
     // device will be dropped here, i.e also be closed
