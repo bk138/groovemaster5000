@@ -43,20 +43,17 @@ fn main() {
 
     let mut note_it = 0;
 
-    for sample_now in 0..notesheet.notes.last().unwrap().on_sample {
+    for sample_now in 0..notesheet.sample_count() {
         guitar.tick(); //play...
 
         //  we are not at the end yet
-        if note_it != notesheet.notes.len() {
-            while notesheet.notes[note_it].on_sample == sample_now {
-                //current note is NOW
+        while note_it != notesheet.notes.len() && notesheet.notes[note_it].on_sample == sample_now {
+            //current note is NOW
+            let s = picked_string::PickedString::new(&notesheet.notes[note_it]);
 
-                let s = picked_string::PickedString::new(&notesheet.notes[note_it]);
+            guitar.add(s);
 
-                guitar.add(s);
-
-                note_it += 1; // maybe another note NOW?
-            }
+            note_it += 1; // maybe another note NOW?
         }
 
         output.push_back(guitar.output);
