@@ -17,11 +17,19 @@ pub struct Note {
 
 pub struct NoteSheet {
     pub notes: Vec<Note>,
+    sample_count: u64,
 }
 
 impl NoteSheet {
     pub fn new() -> Self {
-        Self { notes: Vec::new() }
+        Self {
+            notes: Vec::new(),
+            sample_count: 0,
+        }
+    }
+
+    pub fn sample_count(&self) -> u64 {
+        self.sample_count
     }
 
     pub fn load_file(&mut self, path: &str) -> Result<(), Error> {
@@ -73,6 +81,11 @@ impl NoteSheet {
                 freq: 1.0594f64.powi(note - 69) * 440.0,
                 loudness,
             };
+
+            let note_sample_end = n.on_sample + n.length_sample as u64;
+            if note_sample_end > self.sample_count {
+                self.sample_count = note_sample_end;
+            }
 
             self.notes.push(n);
         }
