@@ -15,6 +15,14 @@ impl Sound {
         }
     }
 
+    /// Add a sample to the Sound.
+    /// # Example
+    /// ```
+    /// # use groovemaster5000::sound;
+    /// let mut s = sound::Sound::new();
+    /// s.push_back(0.5);
+    /// assert_eq!(s.get_samples().len(), 1);
+    /// ```
     pub fn push_back(&mut self, value: f64) {
         self.samples.push(value);
     }
