@@ -1,11 +1,12 @@
 use std::env;
 use std::process;
 
-mod instrument;
-mod note_sheet;
-mod picked_string;
-mod player;
-mod sound;
+use groovemaster5000::instrument;
+use groovemaster5000::note_sheet;
+use groovemaster5000::picked_string;
+use groovemaster5000::player;
+use groovemaster5000::sound;
+
 
 fn main() {
     let args: Vec<String> = env::args().collect();
